@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const BASE_URL = "https://www.thecolorapi.com";
+import { BASE_URL } from "../constants/constants";
+
+const { colors } = BASE_URL;
 
 export const fetchColors = async () => {
-  const response = await axios.get(`${BASE_URL}/random?format=json`);
+  const response = await axios.get(`${colors}/random?format=json`);
   return response;
 };
