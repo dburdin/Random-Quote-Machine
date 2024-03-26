@@ -1,7 +1,9 @@
 import { Component, ReactNode } from "react";
 
 import { Loader } from "./Loader/Loader";
+
 import { fetchQuotes } from "../api/fetchQuotes";
+import { fetchColors } from "../api/fetchColors";
 
 import { Quote, AppState } from "../interfaces/interfaces";
 
@@ -15,8 +17,9 @@ export class App extends Component<AppState> {
   async componentDidMount(): Promise<void> {
     try {
       this.setState({ loading: true });
-      const { data } = await fetchQuotes();
-      this.setState({ quotes: data });
+      const { data: dataQuote } = await fetchQuotes();
+      const { data: dataColor } = await fetchColors();
+      this.setState({ quotes: dataQuote, color: dataColor.hex.value });
     } catch (error) {
       console.error("Error fetching quotes:", error);
       alert(error);
@@ -27,6 +30,7 @@ export class App extends Component<AppState> {
 
   render(): ReactNode {
     const { quotes, loading } = this.state;
+    const quote = quotes[0] as Quote;
 
     return (
       <>
@@ -43,10 +47,14 @@ export class App extends Component<AppState> {
             }}
           >
             <div id="quote-box">
-              <p id="text">{(quotes[0] as Quote).quote}</p>
-              <p id="author">Author</p>
+              <p id="text">{quote.quote}</p>
+              <p id="author">{quote.author}</p>
               <button id="new-quote">Add new quote</button>
-              <a href="twitter.com/intent/tweet" id="tweet-quote">
+              <a
+                target="_blank"
+                href={`https://twitter.com/intent/tweet?text=${quote.quote}`}
+                id="tweet-quote"
+              >
                 Twitter
               </a>
             </div>
