@@ -1,4 +1,5 @@
 import { Component, ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 
 import { Loader } from "./Loader/Loader";
 import { QuoteCard } from "./QuouteCard/QuoteCard";
@@ -15,7 +16,7 @@ export class App extends Component<AppState> {
     loading: false,
   };
 
-  async componentDidMount(): Promise<void> {
+  fetchData = async () => {
     try {
       this.setState({ loading: true });
       const { data: dataQuote } = await fetchQuotes();
@@ -27,6 +28,10 @@ export class App extends Component<AppState> {
     } finally {
       this.setState({ loading: false });
     }
+  };
+
+  componentDidMount() {
+    this.fetchData();
   }
 
   componentDidUpdate(prevState: AppState): void {
@@ -40,13 +45,22 @@ export class App extends Component<AppState> {
     }
   }
 
+  loadMore = () => {
+    this.fetchData();
+  };
+
   render(): ReactNode {
-    const { quotes, loading } = this.state;
+    const { quotes, loading, color } = this.state;
     const quote = quotes[0] as Quote;
 
     return (
       <div className="container">
-        {loading || quotes.length === 0 ? <Loader /> : <QuoteCard quote={quote} />}
+        <Toaster />
+        {loading || quotes.length === 0 ? (
+          <Loader />
+        ) : (
+          <QuoteCard quote={quote} color={color} loadMore={this.loadMore} />
+        )}
       </div>
     );
   }

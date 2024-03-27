@@ -9,3 +9,9 @@ export interface AppState {
   color: string;
   loading: boolean;
 }
+
+export interface QuoteCardProps {
+  quote: Quote;
+  color: string;
+  loadMore: () => void;
+}
