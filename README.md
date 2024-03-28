@@ -29,3 +29,5 @@ To get started with the project, follow these steps:
 `$ npm run dev`
 
 4. Enjoy &#128640;
+
+<span style="color:#912525">Warning:</span>*This application generates random colors that may be very bright or acidic*
