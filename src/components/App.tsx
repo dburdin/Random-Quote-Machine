@@ -9,7 +9,7 @@ import { fetchColors } from "../api/fetchColors";
 
 import { Quote, AppState } from "../interfaces/interfaces";
 
-export class App extends Component<AppState> {
+export class App extends Component<{}, AppState> {
   state = {
     quotes: [],
     color: "",
@@ -34,7 +34,7 @@ export class App extends Component<AppState> {
     this.fetchData();
   }
 
-  componentDidUpdate(prevState: AppState): void {
+  componentDidUpdate(prevState: AppState) {
     if (prevState.color !== this.state.color) {
       const root = document.querySelector("#root") as HTMLElement;
       root?.classList.add("color-transition");
